@@ -1,42 +1,50 @@
-# menu_estudiante.py (Menú de Estudiantes)
-
 from Estudiante import Estudiante
 
-list_estudiantes = []
+lista_estudiantes = []
 
 def agregar_estudiante():
-    nombre = input("Ingrese el nombre: ")
-    edad = int(input("Ingrese la edad: "))
-    direccion = input("Ingrese la dirección: ")
-    curso = input("Ingrese el curso: ")
-    
-    estudiante = Estudiante(nombre, edad, direccion, curso)
-    list_estudiantes.append(estudiante)
-    print("Estudiante agregado correctamente.")
+    nombre = input("Ingrese el nombre del estudiante: ")
+    cedula = input("Ingrese la cédula del estudiante: ")
 
-def mostrar_estudiantes():
-    if not list_estudiantes:
+    estudiante = Estudiante(nombre, cedula)
+    lista_estudiantes.append(estudiante)
+    print(f"Estudiante {nombre} agregado con éxito.")
+
+def listar_estudiantes():
+    if not lista_estudiantes:
         print("No hay estudiantes registrados.")
     else:
-        for estudiante in list_estudiantes:
+        for estudiante in lista_estudiantes:
             print(estudiante)
+
+def eliminar_estudiante():
+    cedula = input("Ingrese la cédula del estudiante a eliminar: ")
+    
+    for estudiante in lista_estudiantes:
+        if estudiante.cedula == cedula:
+            lista_estudiantes.remove(estudiante)
+            print(f"Estudiante {estudiante.nombre} eliminado con éxito.")
+            return
+    
+    print("Estudiante no encontrado.")
 
 def menu_estudiante():
     while True:
-        print("\n::: MENÚ ESTUDIANTES :::")
-        print("1. Agregar Estudiante")
-        print("2. Mostrar Estudiantes")
-        print("3. Salir")
+        print("\n--- Menú Estudiante ---")
+        print("1. Agregar estudiante")
+        print("2. Listar estudiantes")
+        print("3. Eliminar estudiante")
+        print("4. Volver al menú principal")
+
         opcion = input("Seleccione una opción: ")
-        
+
         if opcion == "1":
             agregar_estudiante()
         elif opcion == "2":
-            mostrar_estudiantes()
+            listar_estudiantes()
         elif opcion == "3":
+            eliminar_estudiante()
+        elif opcion == "4":
             break
         else:
-            print("Opción no válida. Intente de nuevo.")
-
-if __name__ == "__main__":
-    menu_estudiante()
+            print("Opción inválida. Intente nuevamente.")

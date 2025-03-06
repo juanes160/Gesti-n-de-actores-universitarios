@@ -1,61 +1,87 @@
-# menu_curso.py (Menú de Cursos)
-
 from Curso import Curso
-from Estudiante import Estudiante
+from menu_profesor import lista_profesores
+from menu_estudiante import lista_estudiantes
 
-list_cursos = []
+lista_cursos = []
 
 def agregar_curso():
     nombre = input("Ingrese el nombre del curso: ")
     codigo = input("Ingrese el código del curso: ")
-    curso = Curso(nombre, codigo)
-    list_cursos.append(curso)
-    print("Curso agregado correctamente.")
+    profesor_nombre = input("Ingrese el nombre del profesor a cargo: ").strip().lower()
 
-def mostrar_cursos():
-    if not list_cursos:
+    profesor_encontrado = next((prof for prof in lista_profesores if prof.nombre.strip().lower() == profesor_nombre), None)
+
+    if not profesor_encontrado:
+        print("Profesor no encontrado. Debe registrar primero al profesor.")
+        return
+
+    curso = Curso(nombre, codigo, profesor_encontrado)
+    lista_cursos.append(curso)
+    print(f"Curso {nombre} registrado con éxito.")
+
+def listar_cursos():
+    if not lista_cursos:
         print("No hay cursos registrados.")
     else:
-        for curso in list_cursos:
+        for curso in lista_cursos:
             print(curso)
 
-def matricular_estudiante():
-    if not list_cursos:
-        print("No hay cursos disponibles para matricular estudiantes.")
+def inscribir_estudiante():
+    if not lista_cursos:
+        print("No hay cursos disponibles.")
         return
-    
-    nombre = input("Ingrese el nombre del estudiante: ")
-    edad = int(input("Ingrese la edad del estudiante: "))
-    direccion = input("Ingrese la dirección del estudiante: ")
-    curso_codigo = input("Ingrese el código del curso en el que desea matricularse: ")
-    
-    estudiante = Estudiante(nombre, edad, direccion, curso_codigo)
-    for curso in list_cursos:
-        if curso.codigo == curso_codigo:
-            curso.matricular_estudiante(estudiante)
-            return
-    
-    print("Curso no encontrado.")
+
+    cedula = input("Ingrese la cédula del estudiante: ")
+    estudiante = next((est for est in lista_estudiantes if est.cedula == cedula), None)
+
+    if not estudiante:
+        print("Estudiante no encontrado. Debe registrarlo primero.")
+        return
+
+    print("Cursos disponibles:")
+    for i, curso in enumerate(lista_cursos, start=1):
+        print(f"{i}. {curso.nombre} (Código: {curso.codigo})")
+
+    opcion = int(input("Seleccione el número del curso: ")) - 1
+
+    if 0 <= opcion < len(lista_cursos):
+        curso_seleccionado = lista_cursos[opcion]
+        curso_seleccionado.inscribir_estudiante(estudiante)
+        print(f"Estudiante {estudiante.nombre} inscrito en {curso_seleccionado.nombre}.")
+    else:
+        print("Opción inválida.")
+
+def listar_cursos_con_estudiantes():
+    if not lista_cursos:
+        print("No hay cursos registrados.")
+        return
+
+    for curso in lista_cursos:
+        print(f"\nCurso: {curso.nombre} (Código: {curso.codigo})")
+        print("Profesor:", curso.profesor.nombre)
+        print("Estudiantes inscritos:")
+        print(curso.listar_estudiantes())
 
 def menu_curso():
     while True:
-        print("\n::: MENÚ CURSOS :::")
-        print("1. Agregar Curso")
-        print("2. Mostrar Cursos")
-        print("3. Matricular Estudiante")
-        print("4. Salir")
+        print("\n--- Menú Curso ---")
+        print("1. Agregar curso")
+        print("2. Listar cursos")
+        print("3. Inscribir estudiante en un curso")
+        print("4. Ver cursos con estudiantes inscritos")
+        print("5. Volver al menú principal")
+
         opcion = input("Seleccione una opción: ")
-        
+
         if opcion == "1":
             agregar_curso()
         elif opcion == "2":
-            mostrar_cursos()
+            listar_cursos()
         elif opcion == "3":
-            matricular_estudiante()
+            inscribir_estudiante()
         elif opcion == "4":
+            listar_cursos_con_estudiantes()
+        elif opcion == "5":
             break
         else:
-            print("Opción no válida. Intente de nuevo.")
-
-if _name_ == "_main_":
-    menu_curso()
+            print("Opción inválida. Intente nuevamente.")

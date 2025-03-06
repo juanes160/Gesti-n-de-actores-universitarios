@@ -1,11 +1,7 @@
-# Estudiante.py (Clase Estudiante)
+class Estudiante:
+    def __init__(self, nombre, cedula):
+        self.nombre = nombre
+        self.cedula = cedula
 
-from Persona import Persona
-
-class Estudiante(Persona):
-    def __init__(self, nombre, edad, direccion, curso):
-        super().__init__(nombre, edad, direccion)
-        self.curso = curso
-    
     def __str__(self):
-        return super().__str__() + f", Curso: {self.curso}"
+        return f"Estudiante: {self.nombre}, Cédula: {self.cedula}"

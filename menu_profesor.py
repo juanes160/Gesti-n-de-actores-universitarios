@@ -1,42 +1,50 @@
-# menu_profesor.py (Menú de Profesores)
-
 from Profesor import Profesor
 
-list_profesores = []
+lista_profesores = []
 
 def agregar_profesor():
-    nombre = input("Ingrese el nombre: ")
-    edad = int(input("Ingrese la edad: "))
-    direccion = input("Ingrese la dirección: ")
-    materia = input("Ingrese la materia que enseña: ")
-    
-    profesor = Profesor(nombre, edad, direccion, materia)
-    list_profesores.append(profesor)
-    print("Profesor agregado correctamente.")
+    nombre = input("Ingrese el nombre del profesor: ")
+    cedula = input("Ingrese la cédula del profesor: ")
 
-def mostrar_profesores():
-    if not list_profesores:
+    profesor = Profesor(nombre, cedula)
+    lista_profesores.append(profesor)
+    print(f"Profesor {nombre} agregado con éxito.")
+
+def listar_profesores():
+    if not lista_profesores:
         print("No hay profesores registrados.")
     else:
-        for profesor in list_profesores:
+        for profesor in lista_profesores:
             print(profesor)
+
+def eliminar_profesor():
+    cedula = input("Ingrese la cédula del profesor a eliminar: ")
+    
+    for profesor in lista_profesores:
+        if profesor.cedula == cedula:
+            lista_profesores.remove(profesor)
+            print(f"Profesor {profesor.nombre} eliminado con éxito.")
+            return
+    
+    print("Profesor no encontrado.")
 
 def menu_profesor():
     while True:
-        print("\n::: MENÚ PROFESORES :::")
-        print("1. Agregar Profesor")
-        print("2. Mostrar Profesores")
-        print("3. Salir")
+        print("\n--- Menú Profesor ---")
+        print("1. Agregar profesor")
+        print("2. Listar profesores")
+        print("3. Eliminar profesor")
+        print("4. Volver al menú principal")
+
         opcion = input("Seleccione una opción: ")
-        
+
         if opcion == "1":
             agregar_profesor()
         elif opcion == "2":
-            mostrar_profesores()
+            listar_profesores()
         elif opcion == "3":
+            eliminar_profesor()
+        elif opcion == "4":
             break
         else:
-            print("Opción no válida. Intente de nuevo.")
-
-if __name__ == "__main__":
-    menu_profesor()
+            print("Opción inválida. Intente nuevamente.")

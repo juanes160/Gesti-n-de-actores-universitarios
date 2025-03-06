@@ -1,25 +1,28 @@
-# Menu.py (Menú Principal)
-
-import menu_estudiante
-import menu_profesor
+from menu_profesor import menu_profesor
+from menu_curso import menu_curso
+from menu_estudiante import menu_estudiante
 
 def menu_principal():
     while True:
-        print("\n::: MENÚ PRINCIPAL :::")
-        print("1. Gestionar Estudiantes")
-        print("2. Gestionar Profesores")
-        print("3. Salir")
+        print("\n--- Menú Principal ---")
+        print("1. Gestión de Profesores")
+        print("2. Gestión de Cursos")
+        print("3. Gestión de Estudiantes")
+        print("4. Salir")
+
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
-            menu_estudiante.menu_estudiante()
+            menu_profesor()
         elif opcion == "2":
-            menu_profesor.menu_profesor()
+            menu_curso()
         elif opcion == "3":
+            menu_estudiante()
+        elif opcion == "4":
             print("Saliendo del programa...")
             break
         else:
-            print("Opción no válida. Intente de nuevo.")
+            print("Opción inválida. Intente nuevamente.")
 
 if __name__ == "__main__":
     menu_principal()
